@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nexus — dark SaaS design system. All colors HSL. */
+
+@layer base {
+  :root {
+    /* Default to dark — Nexus is dark-first */
+    --background: 240 20% 5%;          /* #0a0a0f */
+    --foreground: 210 40% 96%;         /* #f1f5f9 */
+
+    --surface: 240 16% 8%;             /* #111118 */
+    --surface-elevated: 240 16% 10%;
+    --sidebar-bg: 240 22% 6%;          /* #0d0d14 */
+
+    --card: 240 16% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 240 16% 9%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 217 91% 64%;            /* #4f8ef7 electric blue */
+    --primary-foreground: 240 20% 5%;
+    --primary-glow: 217 91% 70%;
+
+    --secondary: 240 10% 14%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 240 10% 12%;
+    --muted-foreground: 215 16% 55%;   /* #64748b */
+
+    --accent: 217 91% 64%;
+    --accent-foreground: 240 20% 5%;
+
+    --success: 142 71% 45%;            /* #22c55e */
+    --warning: 38 92% 50%;             /* #f59e0b */
+    --danger: 0 84% 60%;               /* #ef4444 */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 96%;
+
+    --border: 0 0% 100%;               /* used with /10 alpha */
+    --border-subtle: 240 10% 16%;
+    --input: 240 10% 14%;
+    --ring: 217 91% 64%;
+
+    --radius: 0.75rem;
+
+    /* Gradients & shadows */
+    --gradient-mesh: radial-gradient(at 20% 20%, hsl(217 91% 64% / 0.4) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(280 80% 60% / 0.3) 0px, transparent 50%),
+                     radial-gradient(at 70% 80%, hsl(200 90% 60% / 0.35) 0px, transparent 50%),
+                     radial-gradient(at 0% 100%, hsl(260 70% 55% / 0.3) 0px, transparent 50%);
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 64%), hsl(260 80% 65%));
+    --shadow-glow: 0 10px 40px -10px hsl(217 91% 64% / 0.35);
+    --shadow-card: 0 4px 24px -8px hsl(240 30% 0% / 0.5);
+    --shadow-elevated: 0 20px 60px -20px hsl(217 91% 64% / 0.25), 0 8px 24px -12px hsl(240 30% 0% / 0.6);
+
+    --sidebar-background: 240 22% 6%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 217 91% 64%;
+    --sidebar-primary-foreground: 240 20% 5%;
+    --sidebar-accent: 240 10% 12%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 240 10% 14%;
+    --sidebar-ring: 217 91% 64%;
+  }
+
+  .dark {
+    /* Same — app is dark-only */
+    --background: 240 20% 5%;
+    --foreground: 210 40% 96%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border/10;
+  }
+
+  html, body, #root {
+    @apply min-h-screen;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: "DM Sans", system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(217 91% 64% / 0.08), transparent),
+      url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.5  0 0 0 0 0.9  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    @apply font-bold;
+  }
+
+  .font-mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(240 10% 18%);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(240 10% 25%); }
+
+  /* Focus ring with blue glow */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--primary) / 0.5),
+                0 0 20px hsl(var(--primary) / 0.25);
+  }
+}
+
+@layer components {
+  .surface {
+    @apply bg-card border border-white/10 rounded-xl;
+  }
+  .surface-hover {
+    @apply transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30;
+    box-shadow: var(--shadow-card);
+  }
+  .surface-hover:hover {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .mesh-bg {
+    background-color: hsl(240 25% 4%);
+    background-image: var(--gradient-mesh);
+    background-size: 200% 200%;
+    animation: mesh-drift 18s ease-in-out infinite;
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .shimmer-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, hsl(0 0% 100% / 0.18) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+  }
+  .shimmer-btn:hover::after { transform: translateX(100%); }
+
+  .nav-active {
+    @apply bg-primary/10 text-foreground;
+    box-shadow: inset 3px 0 0 hsl(var(--primary));
+  }
+}
+
+@layer utilities {
+  .press {
+    @apply transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98];
+  }
+  .lift {
+    @apply transition-all duration-300 hover:-translate-y-0.5;
+  }
+}
+
+@keyframes mesh-drift {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes slide-in-right {
+  from { transform: translateX(100%); } to { transform: translateX(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, hsl(240 10% 12%) 0%, hsl(240 10% 16%) 50%, hsl(240 10% 12%) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s linear infinite;
+  @apply rounded-md;
+}

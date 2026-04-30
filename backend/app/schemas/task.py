@@ -6,6 +6,7 @@ class TaskCreate(BaseModel):
     title: str
     description: str | None = None
     assigned_to: int | None = None
+    status: str = "todo"
     priority: str = "medium"
     due_date: date | None = None
 
@@ -25,6 +26,7 @@ class TaskResponse(BaseModel):
     description: str | None
     project_id: int
     assigned_to: int | None
+    assigned_to_name: str | None = None   # resolved from User table
     status: str
     priority: str
     due_date: date | None
