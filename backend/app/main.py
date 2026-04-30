@@ -5,13 +5,14 @@ from app.routes import auth, projects, tasks, dashboard
 
 app = FastAPI(title="Team Task Manager API", version="1.0.0")
 
-# CORS — allow all origins for now
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://team-task-manager-production-b546.up.railway.app","http://localhost:5173",],
+    allow_origins=["https://taskmanager-production-0d96.up.railway.app"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    max_age=3600,
 )
 
 # Register routers
