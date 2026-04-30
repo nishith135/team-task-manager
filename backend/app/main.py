@@ -8,7 +8,7 @@ app = FastAPI(title="Team Task Manager API", version="1.0.0")
 # CORS — allow all origins for now
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://taskmanager-production-0d96.up.railway.app","http://localhost:5173",],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
