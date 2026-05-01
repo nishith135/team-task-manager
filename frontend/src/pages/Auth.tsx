@@ -174,7 +174,10 @@ export default function Auth() {
               label="Password"
               type={showPwd ? "text" : "password"}
               value={password}
-              onChange={(v) => setPassword(truncateToUtf8Bytes(v, 72))}
+              onChange={(v) => {
+                setPassword(truncateToUtf8Bytes(v, 72));
+                setErrors((prev) => ({ ...prev, password: "" }));
+              }}
               error={errors.password}
               suffix={
                 <button type="button" onClick={() => setShowPwd((s) => !s)} className="text-muted-foreground hover:text-foreground">
