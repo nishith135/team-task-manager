@@ -8,6 +8,18 @@ import { login as apiLogin, signup as apiSignup } from "@/api/auth";
 
 type Mode = "login" | "signup";
 
+function truncateToUtf8Bytes(input: string, maxBytes: number) {
+  let result = "";
+  let used = 0;
+  for (const ch of input) {
+    const size = new TextEncoder().encode(ch).length;
+    if (used + size > maxBytes) break;
+    result += ch;
+    used += size;
+  }
+  return result;
+}
+
 function FloatingInput({
   id, label, type = "text", value, onChange, error, suffix,
 }: {
@@ -162,7 +174,7 @@ export default function Auth() {
               label="Password"
               type={showPwd ? "text" : "password"}
               value={password}
-              onChange={setPassword}
+              onChange={(v) => setPassword(truncateToUtf8Bytes(v, 72))}
               error={errors.password}
               suffix={
                 <button type="button" onClick={() => setShowPwd((s) => !s)} className="text-muted-foreground hover:text-foreground">
