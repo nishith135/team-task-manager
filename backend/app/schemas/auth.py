@@ -1,10 +1,12 @@
-from pydantic import BaseModel, EmailStr
+from typing import Literal
+from pydantic import BaseModel, EmailStr, Field
 
 
 class UserCreate(BaseModel):
-    name: str
+    full_name: str
     email: EmailStr
-    password: str
+    password: str = Field(min_length=6)
+    role: Literal["admin", "member"] = "member"
 
 
 class LoginRequest(BaseModel):
@@ -19,8 +21,7 @@ class TokenResponse(BaseModel):
 
 class UserResponse(BaseModel):
     id: int
-    name: str
+    full_name: str
     email: str
-    role: str
 
     model_config = {"from_attributes": True}

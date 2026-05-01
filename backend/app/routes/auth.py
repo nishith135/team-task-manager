@@ -9,19 +9,30 @@ from app.utils.auth import create_access_token
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
-@router.post("/signup", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def signup(data: UserCreate, db: Session = Depends(get_db)):
-    """Register a new user and return a JWT token."""
-    if db.query(User).filter(User.email == data.email).first():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+    """Register a new user and return user details."""
+    try:
+        if db.query(User).filter(User.email == data.email).first():
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
-    user = User(name=data.name, email=data.email, password_hash=hash_password(data.password))
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+        user = User(
+            full_name=data.full_name, 
+            email=data.email, 
+            password_hash=hash_password(data.password),
+            role=data.role
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
 
-    token = create_access_token({"user_id": user.id})
-    return {"access_token": token}
+        return user
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        print(f"Error during signup: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/login", response_model=TokenResponse)

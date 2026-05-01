@@ -1,7 +1,7 @@
 import { api } from "./client";
 
-export const signup = (name, email, password, role) => 
-  api.post("/auth/signup", { name, email, password, role }).then((r) => r.data);
+export const signup = (full_name, email, password, role) => 
+  api.post("/auth/signup", { full_name, email, password, role }).then((r) => r.data);
 
 export const login = async (email, password) => {
   try {

@@ -76,12 +76,12 @@ export default function Auth() {
         const data = await apiLogin(email, password);
         login(data.access_token);
         toast.success("Welcome back!");
+        navigate(from, { replace: true });
       } else {
-        const data = await apiSignup(name, email, password, role);
-        login(data.access_token);
-        toast.success("Account created!");
+        await apiSignup(name, email, password, role);
+        toast.success("Account created! Please sign in.");
+        setMode("login");
       }
-      navigate(from, { replace: true });
     } catch (err: any) {
       const errorMsg = err?.response?.data?.detail || err?.message || "Something went wrong";
       toast.error(errorMsg);
